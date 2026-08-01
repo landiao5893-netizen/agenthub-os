@@ -6,6 +6,19 @@ AgentHub OS 是一个 AI Agent 管理平台，帮你把多个 AI Agent 组织成
 
 ---
 
+## 📸 界面预览
+
+### 主页仪表盘
+![仪表盘](docs/images/dashboard.png)
+
+### 智能工作流画布
+![工作流](docs/images/workflow.png)
+
+### 登录页
+![登录](docs/images/login.png)
+
+---
+
 ## ✨ 功能
 
 ### 🎛️ 多 Agent 面板
