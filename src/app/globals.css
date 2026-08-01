@@ -1,0 +1,451 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   AgentHub OS V2 — AI Workforce OS
+   深空感 + 增强玻璃拟态 + 微粒子
+   ============================================ */
+
+@layer base {
+  :root {
+    --glass-bg: rgba(255, 255, 255, 0.025);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --glass-blur: 24px;
+    --glow-purple: rgba(139, 92, 246, 0.12);
+    --glow-blue: rgba(59, 130, 246, 0.08);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.04) transparent;
+  }
+  *::-webkit-scrollbar { width: 3px; height: 3px; }
+  *::-webkit-scrollbar-track { background: transparent; }
+  *::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.04); border-radius: 100px; }
+  *::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.08); }
+
+  body {
+    color: #f1f1f6;
+    background: #060608;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+    line-height: 1.5;
+    letter-spacing: 0;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+
+  /* 深空网格背景 */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(139,92,246,0.03) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(59,130,246,0.03) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 80%, rgba(6,182,212,0.02) 0%, transparent 50%);
+    background-size: 100% 100%;
+  }
+
+  /* 微粒子浮动 */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.15), transparent),
+      radial-gradient(1px 1px at 25% 65%, rgba(139,92,246,0.2), transparent),
+      radial-gradient(1px 1px at 45% 35%, rgba(255,255,255,0.1), transparent),
+      radial-gradient(1px 1px at 60% 75%, rgba(59,130,246,0.15), transparent),
+      radial-gradient(1px 1px at 75% 15%, rgba(255,255,255,0.12), transparent),
+      radial-gradient(1px 1px at 85% 55%, rgba(139,92,246,0.18), transparent),
+      radial-gradient(1px 1px at 15% 85%, rgba(6,182,212,0.12), transparent),
+      radial-gradient(1px 1px at 90% 90%, rgba(255,255,255,0.1), transparent);
+  }
+}
+
+/* ============================================
+   Glass Card — 增强版
+   ============================================ */
+@layer components {
+  .glass-card {
+    @apply relative overflow-hidden;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(24px) saturate(120%);
+    -webkit-backdrop-filter: blur(24px) saturate(120%);
+    border-radius: 14px;
+    transition: all 0.3s ease;
+  }
+
+  .glass-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 50%, rgba(139,92,246,0.04) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .glass-card-interactive {
+    @apply glass-card cursor-pointer;
+  }
+  .glass-card-interactive:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(139, 92, 246, 0.15);
+    box-shadow: 0 0 24px rgba(139, 92, 246, 0.06);
+    transform: translateY(-1px);
+  }
+
+  /* 按钮 */
+  .btn-glass {
+    @apply px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); color: #a1a1aa;
+  }
+  .btn-glass:hover { background: rgba(255,255,255,0.07); color: #f1f1f6; }
+
+  .btn-accent {
+    @apply px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200;
+    background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.25); color: #a78bfa;
+  }
+  .btn-accent:hover { background: rgba(139,92,246,0.2); box-shadow: 0 0 16px rgba(139,92,246,0.15); }
+
+  .input-glass {
+    @apply w-full px-4 py-2.5 text-sm rounded-xl transition-all duration-200 outline-none;
+    background: rgba(18,18,24,0.92); border: 1px solid rgba(255,255,255,0.16); color: #ffffff; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.22), 0 8px 22px rgba(0,0,0,0.28);
+  }
+  .input-glass:focus { border-color: rgba(167,139,250,0.72); box-shadow: inset 0 0 0 1px rgba(167,139,250,0.18), 0 0 0 3px rgba(139,92,246,0.16), 0 10px 26px rgba(0,0,0,0.34); }
+  .input-glass::placeholder { color: #a1a1aa; }
+
+  .settings-input {
+    @apply w-full rounded-lg px-3 py-2.5 text-[11px] text-white/70 outline-none transition-colors;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .settings-input:focus { border-color: rgba(103,232,249,0.28); background: rgba(103,232,249,0.035); }
+  .settings-input::placeholder { color: rgba(255,255,255,0.18); }
+  select.settings-input option { background: #111116; color: #d4d4d8; }
+
+  /* 状态点 */
+  .status-dot { @apply w-2 h-2 rounded-full; }
+  .status-dot.idle { background: #52525b; box-shadow: 0 0 3px rgba(82,82,91,0.3); }
+  .status-dot.thinking { background: #a78bfa; box-shadow: 0 0 8px rgba(139,92,246,0.5); animation: status-breathe 2s ease-in-out infinite; }
+  .status-dot.working { background: #60a5fa; box-shadow: 0 0 8px rgba(59,130,246,0.5); }
+  .status-dot.done { background: #10b981; box-shadow: 0 0 6px rgba(16,185,129,0.4); }
+  .status-dot.error { background: #f43f5e; box-shadow: 0 0 8px rgba(244,63,94,0.5); }
+
+  .divider-glass {
+    @apply w-full h-px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  }
+}
+
+/* ============================================
+   动画
+   ============================================ */
+@layer utilities {
+  .text-glow-purple { text-shadow: 0 0 8px rgba(139,92,246,0.25); }
+  .text-glow-blue { text-shadow: 0 0 8px rgba(59,130,246,0.25); }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+  }
+  .animate-float { animation: float 4s ease-in-out infinite; }
+}
+
+/* Product readability baseline */
+.text-\[8px\] { font-size: 9.5px !important; }
+.text-\[9px\] { font-size: 10.5px !important; }
+.text-\[10px\] { font-size: 11.5px !important; }
+.text-\[11px\] { font-size: 12.5px !important; }
+.markdown-message > :first-child { margin-top: 0; }
+.markdown-message > :last-child { margin-bottom: 0; }
+.markdown-message h1,
+.markdown-message h2,
+.markdown-message h3 { margin: 1.15em 0 0.45em; color: rgba(255,255,255,0.92); font-weight: 650; line-height: 1.4; }
+.markdown-message h1 { font-size: 1.18em; }
+.markdown-message h2 { font-size: 1.1em; border-bottom: 1px solid rgba(255,255,255,0.07); padding-bottom: 0.35em; }
+.markdown-message h3 { font-size: 1.02em; }
+.markdown-message p { margin: 0.55em 0; }
+.markdown-message ul,
+.markdown-message ol { margin: 0.55em 0; padding-left: 1.45em; }
+.markdown-message ul { list-style: disc; }
+.markdown-message ol { list-style: decimal; }
+.markdown-message li { margin: 0.3em 0; padding-left: 0.15em; }
+.markdown-message li::marker { color: rgba(103,232,249,0.65); }
+.markdown-message strong { color: rgba(255,255,255,0.9); font-weight: 650; }
+.markdown-message hr { margin: 1em 0; border: 0; border-top: 1px solid rgba(255,255,255,0.08); }
+.markdown-message blockquote { margin: 0.7em 0; border-left: 2px solid rgba(167,139,250,0.55); background: rgba(167,139,250,0.05); padding: 0.55em 0.85em; color: rgba(255,255,255,0.62); }
+.markdown-message code { border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; background: rgba(0,0,0,0.28); padding: 0.12em 0.35em; color: rgba(165,243,252,0.82); font-size: 0.92em; }
+.markdown-message pre { margin: 0.75em 0; overflow-x: auto; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; background: rgba(0,0,0,0.3); padding: 0.85em; }
+.markdown-message pre code { border: 0; background: transparent; padding: 0; }
+.markdown-message table { display: block; width: 100%; margin: 0.75em 0; overflow-x: auto; border-collapse: collapse; }
+.markdown-message th,
+.markdown-message td { min-width: 100px; border: 1px solid rgba(255,255,255,0.08); padding: 0.5em 0.65em; text-align: left; vertical-align: top; }
+.markdown-message th { background: rgba(255,255,255,0.045); color: rgba(255,255,255,0.86); font-weight: 600; }
+.markdown-message a { color: rgba(103,232,249,0.82); text-decoration: underline; text-underline-offset: 2px; }
+/* AgentHub mobile workspace */
+@media (max-width: 767px) {
+  body::before,
+  body::after {
+    display: none;
+  }
+
+  .mobile-safe-top {
+    padding-top: env(safe-area-inset-top);
+    height: calc(50px + env(safe-area-inset-top));
+  }
+
+  .mobile-safe-bottom {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 50;
+    padding-bottom: env(safe-area-inset-bottom);
+    height: calc(60px + env(safe-area-inset-bottom));
+  }
+
+  .mobile-shell {
+    position: fixed;
+    inset: 0;
+    padding-bottom: calc(60px + env(safe-area-inset-bottom));
+  }
+
+  .mobile-mode-toolbar {
+    z-index: 35;
+    background: rgba(9, 9, 12, 0.98);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .mobile-chat-body {
+    padding-bottom: 70px;
+  }
+
+  .mobile-roundtable-panel {
+    max-height: calc(100dvh - 190px);
+    overflow-y: auto;
+    padding-bottom: 78px;
+    overscroll-behavior: contain;
+  }
+
+  .mobile-chat-composer {
+    position: fixed;
+    right: 0;
+    bottom: calc(60px + env(safe-area-inset-bottom));
+    left: 0;
+    z-index: 45;
+    background: rgba(9, 9, 12, 0.98);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .mobile-agent-scroll {
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+  }
+
+  .mobile-agent-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-agent-scroll > * {
+    scroll-snap-align: start;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* AgentHub V2 light application theme */
+.agenthub-light-shell {
+  color: #172033;
+  background: #f5f6fb;
+}
+
+.agenthub-light-shell [class~="bg-[#08080a]"],
+.agenthub-light-shell [class~="bg-[#08080a]/92"],
+.agenthub-light-shell [class~="bg-[#08080a]/96"] {
+  background-color: #f5f6fb !important;
+}
+
+.agenthub-light-shell [class~="bg-[#0b0b0e]/96"],
+.agenthub-light-shell [class~="bg-[#0b0b0f]"],
+.agenthub-light-shell [class~="bg-[#09090b]"],
+.agenthub-light-shell [class~="bg-[#09090c]/96"],
+.agenthub-light-shell [class~="bg-[#09090c]/98"],
+.agenthub-light-shell [class~="bg-[#0a0a0c]"],
+.agenthub-light-shell [class~="bg-[#0d0d11]"],
+.agenthub-light-shell [class~="bg-[#111116]"],
+.agenthub-light-shell [class~="bg-[#121218]"] {
+  background-color: #ffffff !important;
+}
+
+.agenthub-light-shell [class~="bg-white/[0.015]"],
+.agenthub-light-shell [class~="bg-white/[0.018]"],
+.agenthub-light-shell [class~="bg-white/[0.02]"],
+.agenthub-light-shell [class~="bg-white/[0.025]"],
+.agenthub-light-shell [class~="bg-white/[0.03]"],
+.agenthub-light-shell [class~="bg-white/[0.035]"],
+.agenthub-light-shell [class~="bg-white/[0.04]"] {
+  background-color: #f8fafc !important;
+}
+
+.agenthub-light-shell [class~="bg-white/[0.05]"],
+.agenthub-light-shell [class~="bg-white/[0.055]"],
+.agenthub-light-shell [class~="bg-white/[0.06]"],
+.agenthub-light-shell [class~="bg-white/[0.07]"],
+.agenthub-light-shell [class~="bg-white/[0.08]"] {
+  background-color: #f1f5f9 !important;
+}
+
+.agenthub-light-shell [class*="border-white"],
+.agenthub-light-shell .border-ah-border,
+.agenthub-light-shell .border-ah-border-subtle {
+  border-color: rgba(15, 23, 42, 0.09) !important;
+}
+
+.agenthub-light-shell .text-white { color: #172033 !important; }
+.agenthub-light-shell [class~="text-white/95"],
+.agenthub-light-shell [class~="text-white/90"],
+.agenthub-light-shell [class~="text-white/86"],
+.agenthub-light-shell [class~="text-white/82"],
+.agenthub-light-shell [class~="text-white/80"],
+.agenthub-light-shell [class~="text-white/78"],
+.agenthub-light-shell [class~="text-white/75"],
+.agenthub-light-shell [class~="text-white/72"],
+.agenthub-light-shell [class~="text-white/70"],
+.agenthub-light-shell [class~="text-white/65"],
+.agenthub-light-shell [class~="text-white/62"],
+.agenthub-light-shell [class~="text-white/60"] { color: #334155 !important; }
+
+.agenthub-light-shell [class~="text-white/58"],
+.agenthub-light-shell [class~="text-white/55"],
+.agenthub-light-shell [class~="text-white/50"],
+.agenthub-light-shell [class~="text-white/45"],
+.agenthub-light-shell [class~="text-white/42"],
+.agenthub-light-shell [class~="text-white/40"],
+.agenthub-light-shell [class~="text-white/38"] { color: #64748b !important; }
+
+.agenthub-light-shell [class~="text-white/35"],
+.agenthub-light-shell [class~="text-white/34"],
+.agenthub-light-shell [class~="text-white/32"],
+.agenthub-light-shell [class~="text-white/30"],
+.agenthub-light-shell [class~="text-white/28"],
+.agenthub-light-shell [class~="text-white/25"],
+.agenthub-light-shell [class~="text-white/20"],
+.agenthub-light-shell [class~="text-white/18"],
+.agenthub-light-shell [class~="text-white/15"],
+.agenthub-light-shell [class~="text-white/10"] { color: #94a3b8 !important; }
+
+.agenthub-light-shell .input-glass,
+.agenthub-light-shell .settings-input {
+  color: #172033;
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+}
+
+.agenthub-light-shell .input-glass::placeholder,
+.agenthub-light-shell .settings-input::placeholder { color: #94a3b8; }
+
+.agenthub-light-shell .glass-card {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.09);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.045);
+}
+
+.agenthub-light-shell .markdown-message h1,
+.agenthub-light-shell .markdown-message h2,
+.agenthub-light-shell .markdown-message h3,
+.agenthub-light-shell .markdown-message strong { color: #172033; }
+.agenthub-light-shell .markdown-message code { color: #0f766e; background: #f1f5f9; }
+.agenthub-light-shell .markdown-message pre { background: #f8fafc; border-color: #e2e8f0; }
+.agenthub-light-shell .markdown-message blockquote { color: #475569; background: #f5f3ff; }
+.agenthub-light-shell .markdown-message th,
+.agenthub-light-shell .markdown-message td { border-color: #e2e8f0; }
+.agenthub-light-shell .markdown-message th { color: #334155; background: #f8fafc; }
+
+.agenthub-light-shell .text-white[class*="bg-violet-"],
+.agenthub-light-shell .text-white[class*="bg-purple-"],
+.agenthub-light-shell .text-white[class*="bg-blue-"],
+.agenthub-light-shell .text-white[class*="bg-emerald-"],
+.agenthub-light-shell .text-white[class*="bg-red-"],
+.agenthub-light-shell .text-white[class*="bg-gradient-to"] { color: #ffffff !important; }
+
+
+/* AgentHub V2 remaining legacy surfaces */
+.agenthub-light-shell [class~="bg-[#09090b]/80"],
+.agenthub-light-shell [class~="bg-[#09090b]/90"],
+.agenthub-light-shell [class~="bg-[#09090b]/92"],
+.agenthub-light-shell [class~="bg-[#09090c]"],
+.agenthub-light-shell [class~="bg-[#0a0a0c]/80"],
+.agenthub-light-shell [class~="bg-[#0a0a0c]/95"],
+.agenthub-light-shell [class~="bg-[#0a0a0d]"],
+.agenthub-light-shell [class~="bg-[#0a0a0e]"],
+.agenthub-light-shell [class~="bg-[#0b0b0f]/95"],
+.agenthub-light-shell [class~="bg-[#101014]"],
+.agenthub-light-shell [class~="bg-[#101117]"],
+.agenthub-light-shell [class~="bg-[#111116]/72"],
+.agenthub-light-shell [class~="bg-[#111116]/75"],
+.agenthub-light-shell [class~="bg-[#111116]/78"],
+.agenthub-light-shell [class~="hover:bg-[#14141b]"] {
+  background-color: #ffffff !important;
+}
+
+.agenthub-light-shell [class~="bg-black/15"],
+.agenthub-light-shell [class~="bg-black/18"],
+.agenthub-light-shell [class~="bg-black/20"],
+.agenthub-light-shell [class~="bg-black/25"],
+.agenthub-light-shell [class~="bg-black/30"] {
+  background-color: #f8fafc !important;
+}
+
+.agenthub-light-shell [class*="shadow-[0_18px_50px"] {
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.055) !important;
+}
+
+.agenthub-light-shell select.settings-input option {
+  color: #172033;
+  background: #ffffff;
+}
+
+
+/* AgentHub V2 light contrast polish */
+.agenthub-light-shell .mobile-mode-toolbar,
+.agenthub-light-shell .mobile-chat-composer {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: #e2e8f0;
+}
+
+.agenthub-light-shell [class~="text-cyan-300"],
+.agenthub-light-shell [class~="text-cyan-300/78"],
+.agenthub-light-shell [class~="text-cyan-300/70"],
+.agenthub-light-shell [class~="text-cyan-300/65"],
+.agenthub-light-shell [class~="text-cyan-300/62"] { color: #0f766e !important; }
+
+.agenthub-light-shell [class~="text-emerald-300"],
+.agenthub-light-shell [class~="text-emerald-300/80"],
+.agenthub-light-shell [class~="text-emerald-300/70"],
+.agenthub-light-shell [class~="text-emerald-300/68"] { color: #047857 !important; }
+
+.agenthub-light-shell [class~="text-amber-300"],
+.agenthub-light-shell [class~="text-amber-300/75"],
+.agenthub-light-shell [class~="text-amber-300/70"] { color: #b45309 !important; }
+
+.agenthub-light-shell [class~="text-rose-300"],
+.agenthub-light-shell [class~="text-rose-300/72"] { color: #be123c !important; }

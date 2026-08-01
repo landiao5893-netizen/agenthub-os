@@ -1,0 +1,28 @@
+model:
+  context_length: 1048576
+  default: deepseek-v4-flash
+  provider: opencode-go
+max_concurrent_sessions: 2
+agent:
+  max_turns: 3
+  reasoning_effort: low
+  tool_call_timeout: 15
+  verbose: false
+platform_toolsets:
+  cli:
+    - clarify
+memory:
+  memory_enabled: false
+  user_profile_enabled: false
+compression:
+  enabled: true
+  threshold: 0.5
+  target_ratio: 0.4
+  protect_last_n: 8
+  protect_first_n: 2
+display:
+  streaming: true
+  show_reasoning: false
+approvals:
+  mode: false
+_config_version: 32
