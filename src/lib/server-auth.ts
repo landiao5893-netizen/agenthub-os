@@ -3,8 +3,12 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import type { NextRequest } from "next/server";
 
 export const AGENTHUB_SESSION_COOKIE = "ah_session";
-const PASSWORD = process.env.AGENTHUB_PASSWORD ?? "agenthub2026";
-const SESSION_SECRET = process.env.AGENTHUB_SESSION_SECRET ?? PASSWORD + ":agenthub-session";
+const PASSWORD = process.env.AGENTHUB_PASSWORD;
+const SESSION_SECRET = process.env.AGENTHUB_SESSION_SECRET;
+
+if (!PASSWORD || !SESSION_SECRET) {
+  throw new Error("AGENTHUB_PASSWORD and AGENTHUB_SESSION_SECRET must be set in environment");
+}
 
 function safeEqual(left: string, right: string): boolean {
   const a = Buffer.from(left);
