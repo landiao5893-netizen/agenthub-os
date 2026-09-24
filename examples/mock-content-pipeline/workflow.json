@@ -1,0 +1,26 @@
+{
+  "name": "Mock Content Pipeline",
+  "description": "Research -> Content -> Reviewer. Runs fully offline with the built-in Mock runtime.",
+  "runtime": "mock",
+  "requiresApiKeys": false,
+  "agents": [
+    { "id": "research-1", "step": "research", "expectedOutput": "facts summary with sources" },
+    { "id": "content-1", "step": "draft", "expectedOutput": "draft article text" },
+    { "id": "reviewer-1", "step": "review", "expectedOutput": "quality verdict + fixes" }
+  ],
+  "nodes": [
+    { "id": "n1", "label": "需求分析", "assignedAgent": "controller", "status": "completed" },
+    { "id": "n2", "label": "竞品调研", "assignedAgent": "research-1", "status": "pending" },
+    { "id": "n3", "label": "内容初稿", "assignedAgent": "content-1", "status": "pending" },
+    { "id": "n4", "label": "质量审核", "assignedAgent": "reviewer-1", "status": "pending" }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" }
+  ],
+  "inputs": {
+    "title": "Write a short introduction for the Guizhou Collection launch page",
+    "priority": "medium"
+  }
+}

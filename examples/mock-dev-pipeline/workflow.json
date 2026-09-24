@@ -1,0 +1,26 @@
+{
+  "name": "Mock Dev Pipeline",
+  "description": "Planner -> Developer -> Reviewer. Runs fully offline with the built-in Mock runtime.",
+  "runtime": "mock",
+  "requiresApiKeys": false,
+  "agents": [
+    { "id": "controller", "step": "plan", "expectedOutput": "task plan with steps" },
+    { "id": "dev-1", "step": "implement", "expectedOutput": "code sketch / implementation notes" },
+    { "id": "reviewer-1", "step": "review", "expectedOutput": "review verdict + fixes" }
+  ],
+  "nodes": [
+    { "id": "n1", "label": "需求拆解", "assignedAgent": "controller", "status": "completed" },
+    { "id": "n2", "label": "方案规划", "assignedAgent": "controller", "status": "completed" },
+    { "id": "n3", "label": "代码实现", "assignedAgent": "dev-1", "status": "pending" },
+    { "id": "n4", "label": "质量审核", "assignedAgent": "reviewer-1", "status": "pending" }
+  ],
+  "edges": [
+    { "from": "n1", "to": "n2" },
+    { "from": "n2", "to": "n3" },
+    { "from": "n3", "to": "n4" }
+  ],
+  "inputs": {
+    "title": "Sketch a README badge component for the dashboard",
+    "priority": "high"
+  }
+}
