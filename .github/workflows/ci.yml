@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test (offline, no external API calls)
+        run: npm test
+
+      - name: Build
+        env:
+          # Dummy CI-only values. The auth module validates these at build time;
+          # real credentials must never be committed or used in CI.
+          AGENTHUB_PASSWORD: ci-test-password
+          AGENTHUB_SESSION_SECRET: ci-test-session-secret-please-use-32-chars
+        run: npm run build
