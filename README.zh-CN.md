@@ -1,5 +1,7 @@
 # 🏢 AgentHub OS
 
+[![CI](https://github.com/landiao5893-netizen/agenthub-os/actions/workflows/ci.yml/badge.svg)](https://github.com/landiao5893-netizen/agenthub-os/actions/workflows/ci.yml)
+
 **像管理员工一样,管理你的 AI Agent。**
 
 AgentHub OS 是一个 AI Agent 管理平台,帮你把多个 AI Agent 组织成一支协同工作的团队。不用在终端和聊天窗口之间来回切换——一个面板,统一调度。
@@ -54,6 +56,25 @@ AgentHub OS 是一个 AI Agent 管理平台,帮你把多个 AI Agent 组织成�
 - Shared Workspace 让上游产出直接供下游 Agent 使用
 
 ---
+
+## 示例(无需 API Key)
+
+可复现的离线流程,全部使用内置 Mock runtime,**不需要任何 API Key、不进行网络调用**:
+
+- [Mock Content Pipeline](examples/mock-content-pipeline/) — 调研 → 内容 → 审核
+- [Mock Dev Pipeline](examples/mock-dev-pipeline/) — 规划 → 开发 → 审核
+
+对应自动化测试见 `tests/mock-pipelines.test.ts`。
+
+## 自动化测试
+
+离线 Vitest 套件,CI 自动执行:
+
+```bash
+npm test
+```
+
+覆盖:Mock runtime 基础执行(断言零 `fetch` 调用)、Supervisor 质量门控(PASS/WARN/FAIL)、Runtime Engine 多 Agent 分发、端到端 3-Agent 内容流水线。详见 [docs/CI.md](docs/CI.md)。
 
 ## 🔌 运行时与 Provider
 

@@ -19,6 +19,9 @@ Implemented as of v0.1.0:
 - Authentication and session handling (HMAC-signed cookie)
 - Knowledge extraction (document upload → text extraction)
 - Project documentation (EN + ZH), screenshots
+- GitHub Actions CI (lint + offline tests + build on push/PR)
+- Offline automated test suite (8 tests: mock runtime, quality gate, engine dispatch, end-to-end pipeline)
+- Reproducible offline examples (`examples/mock-content-pipeline`, `examples/mock-dev-pipeline`)
 
 ## Next
 

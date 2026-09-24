@@ -1,5 +1,7 @@
 # AgentHub OS
 
+[![CI](https://github.com/landiao5893-netizen/agenthub-os/actions/workflows/ci.yml/badge.svg)](https://github.com/landiao5893-netizen/agenthub-os/actions/workflows/ci.yml)
+
 AgentHub OS is an open-source control plane for managing, coordinating, and monitoring multiple AI agents from one interface.
 
 It provides a unified workspace for agent runtimes, workflow orchestration, monitoring, memory, task routing, and quality control.
@@ -137,6 +139,25 @@ src/
 ├── stores/           # Zustand client state
 └── lib/              # shared logic and server-side configuration
 ```
+
+## Examples
+
+Reproducible offline pipelines that run with the built-in Mock runtime — **no API keys required, no network calls**:
+
+- [Mock Content Pipeline](examples/mock-content-pipeline/) — Research → Content → Reviewer
+- [Mock Dev Pipeline](examples/mock-dev-pipeline/) — Planner → Developer → Reviewer
+
+These examples run with the built-in Mock runtime and require no external API keys. They are covered by automated tests (`tests/mock-pipelines.test.ts`).
+
+## Tests
+
+Offline Vitest suite — no external API calls, verified by CI:
+
+```bash
+npm test
+```
+
+Covers: Mock runtime base execution (asserts zero `fetch` calls), Supervisor quality gate (PASS/WARN/FAIL logic), runtime engine multi-agent dispatch, and an end-to-end 3-agent content pipeline. See [docs/CI.md](docs/CI.md).
 
 ## Security
 

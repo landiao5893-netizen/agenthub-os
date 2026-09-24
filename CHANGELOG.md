@@ -5,6 +5,21 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- GitHub Actions CI workflow (lint, offline tests, build; dummy env only, no paid API calls)
+- Offline Vitest test suite (mock runtime execution, quality gate, runtime engine dispatch, end-to-end mock pipeline)
+- Reproducible offline examples: `examples/mock-content-pipeline`, `examples/mock-dev-pipeline`
+- CI documentation (`docs/CI.md`)
+- Git history privacy audit and cleanup plan (`docs/GIT_HISTORY_PRIVACY_AUDIT.md`, `docs/GIT_HISTORY_CLEANUP_PLAN.md`)
+
+### Changed
+
+- `npm test` / `npm test:watch` scripts added
+- README (EN/ZH) now documents CI, tests, and examples
+
 ## [0.1.0] - 2026-09-24
 
 ### Added

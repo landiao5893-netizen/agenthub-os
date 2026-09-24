@@ -76,14 +76,17 @@ Optional:
 - `HERMES_API_TOKEN` — token for the Hermes runtime API
 - `AGENTHUB_IMAGE_API_URL` / `AGENTHUB_IMAGE_API_TOKEN` / `AGENTHUB_IMAGE_MODEL` — image generation backend
 
-### Build and lint
+### Build, lint and test
 
 ```bash
 npm run build
 npm run lint
+npm test           # offline Vitest suite — no external API calls
 ```
 
-If lint reports issues, prefer fixing them in a focused way over large refactors; if a rule or configuration is the problem, raise it in the issue tracker.
+If lint or tests report issues, prefer fixing them in a focused way over large refactors; if a rule or configuration is the problem, raise it in the issue tracker.
+
+Reproducible offline examples live in `examples/` (Mock runtime, no API keys).
 
 ## Pull Request Process
 
