@@ -1,125 +1,160 @@
-# 🏢 AgentHub OS
+# AgentHub OS
 
-**像管理员工一样，管理你的 AI Agent。**
+AgentHub OS is an open-source control plane for managing, coordinating, and monitoring multiple AI agents from one interface.
 
-AgentHub OS 是一个 AI Agent 管理平台，帮你把多个 AI Agent 组织成一支协同工作的团队。不用在终端和聊天窗口之间来回切换——一个面板，统一调度。
+It provides a unified workspace for agent runtimes, workflow orchestration, monitoring, memory, task routing, and quality control.
 
----
-
-## 📸 界面预览
-
-### 主页仪表盘
-![仪表盘](docs/images/dashboard.png)
-
-### 智能工作流画布
-![工作流](docs/images/workflow.png)
-
-### 登录页
-![登录](docs/images/login.png)
+[中文文档](README.zh-CN.md)
 
 ---
 
-## ✨ 功能
+## Why AgentHub OS
 
-### 🎛️ 多 Agent 面板
-- 一键切换不同 Agent，每个 Agent 独立配置、独立上下文
-- 支持 Hermes Agent、Codex、OpenClaw 等多种运行时
-- Agent 状态实时可见：空闲、工作中、等待输入
+Developers often run different AI agents across separate terminals, chat windows, runtimes, and provider tools. AgentHub OS aims to provide one control plane for:
 
-### 💬 多 Agent 对话
-- 同一界面跟多个 Agent 同时交互
-- 支持私聊和群聊模式
-- Markdown 渲染、代码高亮、文件预览
+- agent management
+- task routing
+- workflow orchestration
+- runtime integration
+- monitoring
+- memory
+- quality control
+- failure recovery
+- developer automation
 
-### 📊 实时监控
-- Agent 心跳检测，离线自动告警
-- 任务执行时间线，回溯每一步操作
-- 工作日志自动归档
+Instead of juggling several agents in several windows, you get a single dashboard where agents are organized like a team: each agent has its own profile, context, runtime, and status, and the controller routes work between them.
 
-### 🔧 Provider 统一配置
-- API Key 集中管理，一个地方配置所有模型
-- 支持 OpenAI、DeepSeek、Anthropic 等主流 Provider
-- 模型切换无需改代码
+## Screenshots
 
-### 📝 工作流画布
-- 可视化编排 Agent 协作流程
-- 拖拽式任务分配
-- 并行/串行执行策略
+### Dashboard
 
-### 🧠 Agent 智能调度
-- Controller 引擎自动分配任务给最合适的 Agent
-- 质量门控——输出不合格自动返工
-- 记忆系统跨会话保持上下文
+![Dashboard](docs/images/dashboard.png)
 
----
+### Workflow Canvas
 
-## 🛠 技术栈
+![Workflow Canvas](docs/images/workflow.png)
 
-| 层 | 技术 |
+### Login
+
+![Login](docs/images/login.png)
+
+## Features
+
+- **Multi-agent dashboard** — switch between agents, each with its own configuration and context; built-in role templates (controller, research, content, design, developer, reviewer).
+- **Multi-agent chat** — direct and group conversations with Markdown rendering and file preview.
+- **Agent status monitoring** — live idle / working / waiting states and task execution timelines.
+- **Provider configuration** — API keys encrypted server-side (AES); supports OpenAI, Claude, DeepSeek, and any OpenAI-compatible endpoint.
+- **Workflow canvas** — drag-and-drop visual orchestration of agents, task nodes, and knowledge documents.
+- **Controller / orchestration** — automatic task decomposition, parallel dispatch, and result synthesis.
+- **Supervisor / quality control** — outputs scored across five dimensions (completeness, accuracy, task fit, constitution, preference) with PASS / WARN / FAIL gates and failure-recovery tracking.
+- **Memory** — per-agent persistent memory that survives across sessions.
+- **Shared workspace** — artifacts from one agent are available as context to downstream agents.
+- **Knowledge extraction** — upload documents and extract text into a searchable knowledge base.
+
+## Supported and Planned Runtimes
+
+AgentHub OS is designed to support multiple agent runtimes and developer tools, including integrations or adapters for Codex, Hermes, and OpenClaw.
+
+| Runtime | Status |
 |---|---|
-| 框架 | Next.js 14 (App Router) |
-| UI | React 18 + Tailwind CSS + Framer Motion |
-| 状态 | Zustand |
-| 语言 | TypeScript |
-| 图表 | Lucide Icons |
+| Hermes Agent | ✅ Implemented — chat-run, image and video generation API routes, embedded Python worker |
+| Generic LLM | ✅ Implemented — OpenAI-compatible chat completion |
+| Mock | ✅ Implemented — offline execution for development and demos |
+| OpenClaw | 🔧 Foundation — early adapter with a basic task-execution surface |
+| Codex | 🚧 Planned — no dedicated adapter yet |
 
----
+## Architecture
 
-## 🚀 快速开始
+```
+UI Layer (React / Next.js)
+        ↓
+Controller / Orchestrator   → task decomposition, parallel dispatch, synthesis
+        ↓
+Supervisor / Quality Control → 5-dimension scoring, PASS/WARN/FAIL, recovery
+        ↓
+Runtime Adapter Layer       → unified execution entry
+        ↓
+Hermes / OpenClaw / LLM / Mock runtimes
+```
+
+Sidecar components: memory, shared workspace, monitoring, provider configuration, logging/event engine, task state.
+
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for details and per-layer implementation status.
+
+## Quick Start
+
+Prerequisites: Node.js 18+ and npm.
 
 ```bash
 git clone https://github.com/landiao5893-netizen/agenthub-os.git
 cd agenthub-os
 npm install
 cp .env.example .env.local
-# 编辑 .env.local 填入配置
+# edit .env.local and fill in the required values
 npm run dev
 ```
 
-打开 http://localhost:3099
+Open http://localhost:3099
 
----
+> The login password and session secret are **required** — the server refuses to start without `AGENTHUB_PASSWORD` and `AGENTHUB_SESSION_SECRET`.
 
-## ⚙️ 环境变量
+## Configuration
 
-| 变量 | 必填 | 说明 |
+- Providers are configured in the settings panel (OpenAI-compatible endpoints: base URL + API key + model list).
+- API keys are encrypted at rest by the server (`data/` directory, git-ignored).
+- Hermes runtime connection can be configured per agent with an API URL and token.
+
+## Environment Variables
+
+| Variable | Required | Description |
 |---|---|---|
-| `AGENTHUB_PASSWORD` | ✅ | 登录密码 |
-| `AGENTHUB_SESSION_SECRET` | ✅ | Session 密钥（32位随机字符串） |
-| `HERMES_API_TOKEN` | - | Hermes Agent API Token |
-| `AGENTHUB_IMAGE_API_URL` | - | 图片生成 API 地址 |
+| `AGENTHUB_PASSWORD` | ✅ | Login password for the dashboard |
+| `AGENTHUB_SESSION_SECRET` | ✅ | Session secret (recommend a random string of 32+ chars) |
+| `HERMES_API_TOKEN` | — | Token for the Hermes runtime API |
+| `AGENTHUB_IMAGE_API_URL` | — | Image generation API base URL |
+| `AGENTHUB_IMAGE_API_TOKEN` | — | Image generation API token |
+| `AGENTHUB_IMAGE_MODEL` | — | Image generation model name |
 
----
+In production, also set `AGENTHUB_COOKIE_SECURE=true` to force the `Secure` cookie attribute.
 
-## 📁 项目结构
+## Project Structure
 
 ```
 src/
-├── app/              # Next.js App Router（页面 + API）
-│   ├── api/          # 后端 API 路由
-│   ├── chat/         # 对话页
-│   ├── settings/     # 设置页
-│   └── ...
-├── components/       # React 组件
-│   ├── agents/       # Agent 管理面板
-│   ├── chat/         # 聊天组件
-│   ├── workflow/     # 工作流画布
-│   ├── monitor/      # 监控面板
-│   └── layout/       # 布局组件
-├── stores/           # Zustand 状态管理
-├── controller/       # Agent 调度引擎
-├── supervisor/       # 质量监控
-├── memory/           # 记忆系统
-├── workspace/        # 工作区引擎
-└── runtime-engine/   # 运行时适配器
+├── app/              # Next.js App Router (pages + API routes)
+├── components/       # React components (agents, chat, workflow, monitor, supervisor, runtime…)
+├── controller/       # task decomposition + multi-agent orchestration
+├── supervisor/       # quality gating + failure recovery
+├── runtime-engine/   # unified execution entry + runtime adapters
+├── adapters/         # adapter registry (Hermes, OpenClaw, LLM, Mock)
+├── intelligence/     # orchestration intelligence layer
+├── memory/           # per-agent persistent memory
+├── workspace/        # shared workspace and artifact downloads
+├── knowledge/        # knowledge base and document parsing
+├── constitution/     # agent behavioral guidelines
+├── stores/           # Zustand client state
+└── lib/              # shared logic and server-side configuration
 ```
 
----
+## Security
 
-## 📄 License
+- API keys are encrypted at rest (AES) and never logged; the UI only shows a last-4-characters hint.
+- Password verification uses timing-safe comparison; sessions use an HMAC-SHA256 signed cookie.
+- Server-side routes that call external providers validate target hosts and block localhost and private network ranges (SSRF mitigation).
+- Never commit secrets, private endpoints, or personal configuration. See [SECURITY.md](SECURITY.md) and [docs/SECURITY_MODEL.md](docs/SECURITY_MODEL.md).
 
-MIT
+## Roadmap
 
----
+See [ROADMAP.md](ROADMAP.md) for current, next, and future work. Highlights: standardized runtime adapter interface, Codex integration, permission controls for agent actions, secret isolation, audit logs, and more tests.
 
-> Built with ❤️ by [landiao5893-netizen](https://github.com/landiao5893-netizen)
+## Contributing
+
+Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide (bug reports, feature requests, documentation, runtime and provider integrations, PR process).
+
+## License
+
+[MIT](LICENSE)
+
+## Project Status
+
+AgentHub OS is an early-stage open-source project under active development.
