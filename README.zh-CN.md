@@ -94,6 +94,7 @@ npm run dev
 打开 http://localhost:3099
 
 > 注意:登录密码与 Session 密钥为必填(`AGENTHUB_PASSWORD` / `AGENTHUB_SESSION_SECRET`),不填则服务无法启动。
+> `npm run build` 同样需要这两个必填变量(认证模块在构建期校验),请先按 `.env.example` 配置好 `.env.local` 再构建。
 
 ---
 

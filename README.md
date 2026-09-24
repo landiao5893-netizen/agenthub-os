@@ -98,6 +98,8 @@ Open http://localhost:3099
 
 > The login password and session secret are **required** — the server refuses to start without `AGENTHUB_PASSWORD` and `AGENTHUB_SESSION_SECRET`.
 
+> `npm run build` also requires the two required variables to be present (the auth module validates them at build time). Configure `.env.local` from `.env.example` before building.
+
 ## Configuration
 
 - Providers are configured in the settings panel (OpenAI-compatible endpoints: base URL + API key + model list).
